@@ -2,8 +2,8 @@ name: Update profile
 
 on:
   schedule:
-    - cron: "17 12 * * *"            # daily at 12:17 …
-      timezone: "America/New_York"    # … New York time (IANA zone name)
+    - cron: "17 17 * * *"            # daily at 22:47 IST (India Standard Time, UTC+5:30)
+      timezone: "Asia/Kolkata"       # cron runs in UTC; 17:17 UTC = 22:47 IST
   workflow_dispatch:         # "Run workflow" button on the Actions tab
   push:
     branches: [main]
@@ -56,5 +56,5 @@ jobs:
             echo "Nothing changed."
           else
             git commit -m "Refresh profile stats"
-            git push
+            git push origin HEAD:main || git push origin HEAD:master
           fi

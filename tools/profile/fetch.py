@@ -17,7 +17,8 @@ import urllib.error
 import urllib.request
 
 USER = "Nikhilsunchu1107"
-HACKATHON_WINS = int(os.environ.get("HACKATHON_WINS", "0"))
+_hw = os.environ.get("HACKATHON_WINS", "0")
+HACKATHON_WINS = int(_hw) if _hw else 0
 DATA = pathlib.Path(__file__).resolve().parent / "data"
 UA = "Nikhilsunchu1107-profile-updater"
 
