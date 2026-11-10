@@ -1,0 +1,5 @@
+# Profile generator dependencies
+fonttools==4.62.1
+brotli==1.2.0
+python-dotenv==1.0.1
+ruff==0.17.4

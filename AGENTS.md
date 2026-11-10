@@ -39,5 +39,5 @@ It uses `PROFILE_TOKEN` and `GITHUB_TOKEN` secrets (optional; `GITHUB_TOKEN`
 is provided automatically by GitHub Actions).
 
 ## Notes
-- No package manager, no build/test/lint commands, no test suite.
-- `.gitignore` ignores `__pycache__/` and `*.pyc`.
+- No package manager, no build/lint commands. Test suite at `tools/profile/tests/`.
+- `.gitignore` ignores `__pycache__/`, `*.pyc`, `.env`.

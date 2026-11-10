@@ -17,7 +17,7 @@ ROOT = HERE.parent.parent
 DATA = HERE / "data"
 OUT = ROOT / "assets"
 FONT_DIR = HERE / "fonts"
-CYAN, MAGENTA, GREEN = "#00d9ff", "#ff2bd6", "#3fb950"
+AMBER, CYAN, MAGENTA, GREEN, VIOLET = "#e3b341", "#00d9ff", "#ff2bd6", "#3fb950", "#bc8cff"
 W, M = 880, 16            # slice width, transparent side margin (room for the glow)
 FL, FR = M, W - M         # frame left / right
 X = 52                    # text left edge
@@ -212,26 +212,26 @@ def half_slice(h, side, body, *, title, desc, text, weights=(400, 700)):
 
 PROJECTS = [
     dict(slug="basketiq", name="BasketIQ", url="https://github.com/Nikhilsunchu1107/Basket_IQ",
-         tag="FEATURED", tagc=GREEN, stars=0, stack="Python · Dash · Plotly · scikit-learn",
-         desc="Amazon-like product recommendation and customer behaviour analysis using association rule mining, with a web dashboard."),
+        tag="FEATURED", tagc=GREEN, stars=0, stack="Python · Dash · Plotly · scikit-learn",
+        desc="Amazon-like product recommendation and behaviour analysis via association rule mining, with a web dashboard."),
     dict(slug="kanban-project", name="Kanban Board", url="https://github.com/Nikhilsunchu1107/kanban-project",
-         tag="FEATURED", tagc=GREEN, stars=0, stack="MERN",
-         desc="Real-time collaborative Kanban board for project management."),
+        tag="FEATURED", tagc=GREEN, stars=0, stack="MERN",
+        desc="Real-time collaborative Kanban board for project management."),
     dict(slug="spyglass", name="SpyGlass", url="https://github.com/Nikhilsunchu1107/Recursion_7.0",
-         tag="RECURSION 7.0", tagc=MAGENTA, stars=0, stack="FastAPI · Docker · React · Vite · Tailwind CSS · Supabase · Redis",
-         desc="AI-powered competitive intelligence for YouTube creators. Python backend with YouTube Data API, scikit-learn, and LLMs; React/Vite/Tailwind frontend on Vercel; CI/CD with Render and Vercel; Redis caching and Supabase auth."),
-    dict(slug="gender-classification", name="Gender Classification (Retinal Fundus)", url="https://github.com/Nikhilsunchu1107/MLDL_miniproject",
-         tag="ML", tagc=MAGENTA, stars=0, stack="Python · OpenCV · Pillow · PyTorch · EfficientNet-B0",
-         desc="Deep learning pipeline classifying gender from 700 retinal fundus images with 75%+ validation accuracy. EfficientNet-B0 fine-tuning, Grad-CAM explainability, ROC-AUC >0.78, F1 >0.75."),
+        tag="ML", tagc=MAGENTA, stars=0, stack="FastAPI · React · Tailwind CSS · Supabase",
+        desc="AI-powered competitive intelligence for YouTube creators. FastAPI + React/Vite frontend, Redis caching, Supabase auth."),
+    dict(slug="gender-classification", name="Gender Classification", url="https://github.com/Nikhilsunchu1107/MLDL_miniproject",
+        tag="ML", tagc=MAGENTA, stars=0, stack="OpenCV · Pillow · PyTorch · EfficientNet-B0",
+        desc="Gender classification from 700 retinal fundus images. EfficientNet-B0 fine-tuning, Grad-CAM, ROC-AUC >0.78."),
     dict(slug="iicpc", name="IICPC", url="https://github.com/Nikhilsunchu1107/IICPC",
-         tag="IN PROGRESS", tagc=AMBER, stars=0, stack="Go · Redis Streams · PostgreSQL",
-         desc="Go-based microservices platform for IICPC-style competition workflow. API gateway, submission service, bot fleet, telemetry ingester, benchmark orchestrator, leaderboard service. Event-driven pipeline with Redis Streams and PostgreSQL."),
-    dict(slug="digital-twin", name="Predictive Maintenance Digital Twin", url="https://github.com/Nikhilsunchu1107/Digital_twin",
-         tag="ML", tagc=MAGENTA, stars=0, stack="Python · XGBoost · Streamlit · uv",
-         desc="Predictive maintenance digital twin for NASA C-MAPSS turbofan engines. XGBoost RUL estimation with GroupKFold CV, RMSE ~18.2 vs ~20.3 baseline, NASA score ~1040 vs ~1086. Streamlit dashboard with 65+ tests."),
+        tag="IN PROGRESS", tagc=AMBER, stars=0, stack="Go · Redis Streams · PostgreSQL",
+        desc="Go-based microservices platform for IICPC-style competition workflow. API gateway, Redis Streams, PostgreSQL."),
+    dict(slug="digital-twin", name="Digital Twin", url="https://github.com/Nikhilsunchu1107/Digital_twin",
+        tag="ML", tagc=MAGENTA, stars=0, stack="Python · XGBoost · Streamlit · uv",
+        desc="Predictive maintenance digital twin for NASA C-MAPSS turbofan engines. XGBoost RUL estimation, Streamlit dashboard."),
     dict(slug="ecommerce-intelligence", name="E-Commerce Intelligence Platform", url="https://github.com/Nikhilsunchu1107/ecommerce_intelligence",
-         tag="BIG DATA", tagc=GREEN, stars=0, stack="PySpark · HDFS · Spark · PostgreSQL · Streamlit",
-         desc="End-to-end big data analytics pipeline processing 1.24M e-commerce events. PySpark cleaning, ALS recommendation engine (465 rules, 1.9M recommendations), PostgreSQL serving layer, Streamlit dashboard. Full pipeline in 377s."),
+        tag="BIG DATA", tagc=GREEN, stars=0, stack="PySpark · HDFS · PostgreSQL · Streamlit",
+        desc="End-to-end big data analytics pipeline processing 1.24M events. PySpark cleaning, ALS recommendations, Streamlit dashboard."),
 ]
 CARD_H = 200
 
@@ -273,14 +273,11 @@ def build_card(p, side, delay, stars=None):
 <text x="{sx}" y="{y0+158}" text-anchor="end" class="dim" style="font-size:12px">{p["stars"]}</text>
 </g>'''
     text = p["name"] + p["tag"] + p["desc"] + p["stack"] + str(p["stars"])
-    return half_slice(CARD_H, side, body, title=p["name"],
-                      desc=f'{p["name"]}: {p["desc"]} Built with {p["stack"].replace(" · ", ", ")}. {p["stars"]} stars.', text=text)
+    return half_slice(CARD_H, side, body, title=p["name"], desc=f'{p["name"]}: {p["desc"]} Built with {p["stack"].replace(" · ", ", ")}. {p["stars"]} stars.', text=text)
 
 
 
 # ─────────────────────────────── stats ────────────────────────────────
-AMBER, VIOLET = "#e3b341", "#bc8cff"
-
 
 def fmt(n):
     return "—" if n is None else f"{n:,}"
@@ -360,7 +357,7 @@ def build_stats(d):
 {"".join(legend)}
 </g>''')
     parts.append(f'<text x="{FR-36}" y="{ry + rh + 16}" text-anchor="end" fill="#484f58" style="font-size:11px">// last sync {d["updated"]}</text>')
-    h = up40(fy + 16)
+    h = up40(ry + rh + 16)
     text = "".join(str(x) for x in ["~/stats// 02$ gh stats --user Nikhilsunchu1107 dev stats", "".join(p for p in parts)])
     text = re.sub(r"<[^>]+>", "", text) + "0123456789,—%.★()d"
     activity = (f"{d['contributions_year']} contributions in {d['year']}, {d['contributions_all']} all time"
@@ -406,14 +403,20 @@ def build_stack():
 
 # ──────────────────────────────── links ───────────────────────────────
 LINKS = [
-    ("linkedin", "LinkedIn", "in/nikhil-sunchu-981137307", "https://www.linkedin.com/in/nikhil-sunchu-981137307/"),
-    ("github", "GitHub", "Nikhilsunchu1107", "https://github.com/Nikhilsunchu1107"),
+    ("linkedin", "LinkedIn", "in/nikhilsunchu", "https://www.linkedin.com/in/nikhilsunchu"),
+    ("x", "X", "@Nikhilsunchu07", "https://x.com/Nikhilsunchu07"),
     ("codeforces", "Codeforces", "Nikhilsunchu11", "https://codeforces.com/profile/Nikhilsunchu11"),
     ("leetcode", "LeetCode", "Nikhilsunchu11", "https://leetcode.com/u/Nikhilsunchu11"),
 ]
 ICONS = json.load(open(HERE / "icons.json"))
-SEG = W // len(LINKS)     # 176 px per button slice
-BTN_W, BTN_GAP = 124, 39  # buttons line up with the text column (x = 52 … 828)
+# Layout matching stats row: outer padding 36px from rails (FL=16, FR=864), 16px gaps between buttons
+LINK_SLICES = [
+    {"w": 242, "x0": 0, "lx": 52},    # LinkedIn: starts at 52 (36px from FL 16), ends at 234 (8px to slice right)
+    {"w": 198, "x0": 242, "lx": 8},   # X: starts at 8 (16px gap from LinkedIn), ends at 190 (8px to slice right)
+    {"w": 198, "x0": 440, "lx": 8},   # Codeforces: starts at 8 (16px gap from X), ends at 190 (8px to slice right)
+    {"w": 242, "x0": 638, "lx": 8},   # LeetCode: starts at 8 (16px gap from CF), ends at 190 (36px to right rail 226)
+]
+BTN_W = 182  # matches tw = 182 in stats tiles
 
 
 def icon_markup(key, x, y, size=18):
@@ -433,13 +436,13 @@ def build_links_head():
 def build_link_button(k):
     key, label, handle, url = LINKS[k]
     h = 80
-    x0 = SEG * k                       # this slice's position inside the full-width row
-    lx = X + k * (BTN_W + BTN_GAP) - x0
+    sc = LINK_SLICES[k]
+    w, x0, lx = sc["w"], sc["x0"], sc["lx"]
     first, last = k == 0, k == len(LINKS) - 1
-    bg0 = FL - x0 if first else 0
-    bg1 = FR - x0 if last else SEG
-    rails = (f"M{FL - x0} 0V{h}" if first else "") + (f"M{FR - x0} 0V{h}" if last else "")
-    glow = (f"M{FL - x0} -40V{h+40}" if first else "") + (f"M{FR - x0} -40V{h+40}" if last else "")
+    bg0 = FL if first else 0
+    bg1 = w - M if last else w
+    rails = (f"M{FL} 0V{h}" if first else "") + (f"M{w - M} 0V{h}" if last else "")
+    glow = (f"M{FL} -40V{h+40}" if first else "") + (f"M{w - M} -40V{h+40}" if last else "")
     by, bh, cut = 12, 56, 12
     box = f"M{lx} {by}H{lx+BTN_W-cut}L{lx+BTN_W} {by+cut}V{by+bh}H{lx}Z"
     text = label + handle + "in"
@@ -447,12 +450,12 @@ def build_link_button(k):
 <path d="{box}" fill="{CYAN}" fill-opacity=".05"/>
 <path d="{box}" fill="none" stroke="{CYAN}" stroke-opacity=".55"/>
 <path d="M{lx+BTN_W-cut} {by}L{lx+BTN_W} {by+cut}" stroke="{CYAN}" stroke-width="2"/>
-<g filter="url(#g)" opacity=".5">{icon_markup(key, lx+12, by+11)}</g>
-{icon_markup(key, lx+12, by+11)}
-<text x="{lx+38}" y="{by+25}" font-weight="700" class="cy" style="font-size:13px">{e(label)}</text>
-<text x="{lx+12}" y="{by+46}" class="dim" style="font-size:10px">{e(handle)}</text>
+<g filter="url(#g)" opacity=".5">{icon_markup(key, lx+16, by+11)}</g>
+{icon_markup(key, lx+16, by+11)}
+<text x="{lx+52}" y="{by+25}" font-weight="700" class="cy" style="font-size:13px">{e(label)}</text>
+<text x="{lx+16}" y="{by+46}" class="dim" style="font-size:10px">{e(handle)}</text>
 </g>'''
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{SEG}" height="{h}" viewBox="0 0 {SEG} {h}" role="img" aria-labelledby="t d">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-labelledby="t d">
 <title id="t">{e(label)}</title>
 <desc id="d">{e(label)}: {e(url)}</desc>
 <style>
@@ -462,7 +465,7 @@ def build_link_button(k):
 </style>
 <defs>
 <pattern id="grid" x="{(-x0) % 40}" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="{CYAN}" stroke-opacity=".06"/></pattern>
-<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>
+<filter id="glow" filterUnits="userSpaceOnUse" x="-40" y="-80" width="{w+80}" height="{h+160}"><feGaussianBlur stdDeviation="6"/></filter>
 <filter id="g" x="-20%" y="-60%" width="140%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
 </defs>
 {f'<path d="{glow}" fill="none" stroke="{CYAN}" stroke-width="3" opacity=".55" filter="url(#glow)"/>' if glow else ""}
@@ -576,22 +579,41 @@ def build_city(calendar, updated):
     legend = "".join(f'<rect x="{X + 52 + i*16}" y="{642}" width="11" height="11" fill="{c}"/>'
                      for i, c in enumerate(["#161b22"] + ROOFS))
     body = heading(44, "contribution-city", "// 03") + f'''
-<g class="ln" style="animation-delay:.15s"><text x="{X}" y="96" class="dim"><tspan class="gr">$</tspan> render-city --last 365d <tspan fill="#484f58"># one building per day</tspan></text></g>
-<g>{"".join(stars)}</g>
-<circle cx="{FR-80}" cy="{160}" r="40" fill="url(#moonglow)"/>
-<circle cx="{FR-80}" cy="{160}" r="14" fill="#e6edf3"/>
-<circle cx="{FR-74}" cy="{155}" r="12.5" fill="#03040a"/>
-<g class="plane"><g transform="translate(0 132)"><rect x="0" y="0" width="14" height="2" rx="1" fill="#484f58"/><circle class="bl" cx="0" cy="1" r="1.6" fill="#ff7b72"/><circle class="bl" cx="14" cy="1" r="1.6" fill="#f0f6fc" style="animation-delay:.7s"/></g></g>
-{info_svg}
-{"".join(shapes)}
-<text x="{X}" y="{652}" class="dim" style="font-size:11px">quiet</text>{legend}<text x="{X + 52 + 5*16 + 6}" y="{652}" class="dim" style="font-size:11px">skyscraper</text>'''
+        <g class="ln" style="animation-delay:.15s">
+            <text x="{X}" y="96" class="dim">
+                <tspan class="gr">$</tspan>
+                    render-city --last 365d
+                <tspan fill="#484f58"># one building per day</tspan>
+            </text>
+        </g>
+        <g>{"".join(stars)}</g>
+        <circle cx="{FR-80}" cy="{160}" r="40" fill="url(#moonglow)"/>
+        <circle cx="{FR-80}" cy="{160}" r="14" fill="#e6edf3"/>
+        <circle cx="{FR-74}" cy="{155}" r="12.5" fill="#03040a"/>
+        <g class="plane">
+            <g transform="translate(0 132)">
+                <rect x="0" y="0" width="14" height="2" rx="1" fill="#484f58"/>
+                <circle class="bl" cx="0" cy="1" r="1.6" fill="#ff7b72"/>
+                <circle class="bl" cx="14" cy="1" r="1.6" fill="#f0f6fc" style="animation-delay:.7s"/>
+            </g>
+        </g>
+        {info_svg}
+        {"".join(shapes)}
+        <text x="{X}" y="{652}" class="dim" style="font-size:11px">
+            quiet
+        </text>
+            {legend}
+        <text x="{X + 52 + 5*16 + 6}" y="{652}" class="dim" style="font-size:11px">
+            skyscraper
+        </text>'''
     css = f"""@keyframes tw{{0%,100%{{opacity:.9}}50%{{opacity:.15}}}}
-@keyframes fl{{0%,40%,100%{{opacity:1}}45%,60%{{opacity:.1}}}}
-@keyframes blink{{0%,90%,100%{{opacity:0}}93%{{opacity:1}}}}
-@keyframes fly{{from{{transform:translate({FL - 40}px,0)}}to{{transform:translate({FR + 40}px,-30px)}}}}
-.s0{{animation:tw 3s infinite}}
-.f0{{animation:fl 5s infinite}}.f1{{animation:fl 7s infinite 2s}}.f2{{animation:fl 9s infinite 4s}}
-.plane{{animation:fly 26s linear infinite}}.bl{{animation:blink 1.4s infinite}}"""
+        @keyframes fl{{0%,40%,100%{{opacity:1}}45%,60%{{opacity:.1}}}}
+        @keyframes blink{{0%,90%,100%{{opacity:0}}93%{{opacity:1}}}}
+        @keyframes fly{{from{{transform:translate({FL - 40}px,0)}}to{{transform:translate({FR + 40}px,-30px)}}}}
+        .s0{{animation:tw 3s infinite}}
+        .f0{{animation:fl 5s infinite}}.f1{{animation:fl 7s infinite 2s}}.f2{{animation:fl 9s infinite 4s}}
+        .plane{{animation:fly 26s linear infinite}}.bl{{animation:blink 1.4s infinite}}
+    """
     defs = f'<radialGradient id="moonglow"><stop offset="0" stop-color="#f0f6fc" stop-opacity=".22"/><stop offset="1" stop-color="#f0f6fc" stop-opacity="0"/></radialGradient>'
     desc = (f"Contribution city: an isometric night skyline with one building per day of the last year, "
             f"taller and brighter for busier days. {total:,} contributions"
