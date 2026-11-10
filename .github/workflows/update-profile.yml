@@ -2,21 +2,21 @@ name: Update profile
 
 on:
   schedule:
-    - cron: "17 17 * * *"            # daily at 22:47 IST (India Standard Time, UTC+5:30)
-      timezone: "Asia/Kolkata"       # cron runs in UTC; 17:17 UTC = 22:47 IST
-  workflow_dispatch:         # "Run workflow" button on the Actions tab
+    - cron: "17 17 * * *" # daily at 22:47 IST (India Standard Time, UTC+5:30)
+      timezone: "Asia/Kolkata" # cron runs in UTC; 17:17 UTC = 22:47 IST
+  workflow_dispatch: # "Run workflow" button on the Actions tab
   push:
     branches: [main]
-    paths:                   # re-render right away when the generator itself changes
+    paths: # re-render right away when the generator itself changes
       - "tools/profile/*.py"
       - "tools/profile/icons.json"
       - ".github/workflows/update-profile.yml"
 
 permissions:
-  contents: write            # needed to commit the refreshed files
+  contents: write # needed to commit the refreshed files
 
 concurrency:
-  group: update-profile      # never run two updates at once
+  group: update-profile # never run two updates at once
   cancel-in-progress: false
 
 jobs:
@@ -32,12 +32,11 @@ jobs:
 
       # pinned so the embedded fonts stay byte-identical between runs
       - name: Install dependencies
-        run: pip install fonttools==4.62.1 brotli==1.2.0
-
+        run: pip install -r requirements.txt
       - name: Fetch data
         env:
-          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }}   # optional: adds private contributions
-          GITHUB_TOKEN: ${{ github.token }}             # fallback: public data only
+          PROFILE_TOKEN: ${{ secrets.PROFILE_TOKEN }} # optional: adds private contributions
+          GITHUB_TOKEN: ${{ github.token }} # fallback: public data only
           HACKATHON_WINS: ${{ secrets.HACKATHON_WINS }} # optional: hackathon wins count
         run: python tools/profile/fetch.py
 
