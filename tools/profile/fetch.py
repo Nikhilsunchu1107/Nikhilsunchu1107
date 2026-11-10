@@ -17,15 +17,15 @@ import sys
 import urllib.error
 import urllib.request
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 USER = "Nikhilsunchu1107"
-_hw = os.environ.get("HACKATHON_WINS", "0")
-HACKATHON_WINS = int(_hw) if _hw else 0
 DATA = pathlib.Path(__file__).resolve().parent / "data"
 UA = "Nikhilsunchu1107-profile-updater"
+
+_hw = os.environ.get("HACKATHON_WINS", "0")
+try:
+    HACKATHON_WINS = int(_hw)
+except (ValueError, TypeError):
+    HACKATHON_WINS = 0
 
 
 # ─────────────────────────────── helpers ───────────────────────────────
@@ -184,7 +184,10 @@ def fetch_github(token, today):
 
 # ──────────────────────────────── main ─────────────────────────────────
 def main():
-    today = datetime.datetime.now(datetime.UTC).date()
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    today = datetime.datetime.now(datetime.timezone.utc).date()
     stats = load("stats.json", {})
     ok = False
 
@@ -203,7 +206,7 @@ def main():
                     else " (public only)"
                 )
             )
-        except Exception as ex:  # noqa: BLE001
+        except (urllib.error.URLError, json.JSONDecodeError, KeyError, RuntimeError) as ex:
             warn(f"GitHub fetch failed, keeping previous stats: {ex}")
     else:
         warn("No PROFILE_TOKEN or GITHUB_TOKEN set, skipping GitHub")

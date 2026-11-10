@@ -7,7 +7,16 @@ Every slice is W wide, a multiple of 40px tall (so the grid lines up across slic
 and draws the same side rails; only the first slice has the top edge and title bar,
 only the last one closes the frame.
 """
-import base64, datetime, hashlib, html, io, json, math, pathlib, re, textwrap
+import base64
+import datetime
+import hashlib
+import html
+import io
+import json
+import math
+import pathlib
+import re
+import textwrap
 
 from fontTools import subset
 from fontTools.ttLib import TTFont
@@ -408,7 +417,7 @@ LINKS = [
     ("codeforces", "Codeforces", "Nikhilsunchu11", "https://codeforces.com/profile/Nikhilsunchu11"),
     ("leetcode", "LeetCode", "Nikhilsunchu11", "https://leetcode.com/u/Nikhilsunchu11"),
 ]
-ICONS = json.load(open(HERE / "icons.json"))
+ICONS = json.loads((HERE / "icons.json").read_text())
 # Layout matching stats row: outer padding 36px from rails (FL=16, FR=864), 16px gaps between buttons
 LINK_SLICES = [
     {"w": 242, "x0": 0, "lx": 52},    # LinkedIn: starts at 52 (36px from FL 16), ends at 234 (8px to slice right)
@@ -637,7 +646,11 @@ def main():
     ap.add_argument("--out", type=pathlib.Path, default=OUT, help="folder to write the SVGs into")
     args = ap.parse_args()
     OUT = args.out
-    stats = json.load(open(args.data / "stats.json"))
+    try:
+        stats = json.loads((args.data / "stats.json").read_text())
+    except (FileNotFoundError, json.JSONDecodeError) as ex:
+        print(f"error: cannot read stats.json: {ex}", file=sys.stderr)
+        sys.exit(1)
     stars = stats.get("repo_stars", {})
     write("header.svg", build_header())
     write("links.svg", build_links_head())
@@ -645,7 +658,8 @@ def main():
         write(f"links/{key}.svg", build_link_button(k))
     write("stats.svg", build_stats(stats))
     if (args.data / "calendar.json").exists():
-        write("contribution-city.svg", build_city(json.load(open(args.data / "calendar.json")), stats["updated"]))
+        calendar = json.loads((args.data / "calendar.json").read_text())
+        write("contribution-city.svg", build_city(calendar, stats["updated"]))
     write("projects.svg", build_projects_head())
     for i, p in enumerate(PROJECTS):
         write(f"card-{p['slug']}.svg", build_card(p, "L" if i % 2 == 0 else "R", 0.3 + i * 0.12, stars))
