@@ -17,6 +17,9 @@ import sys
 import urllib.error
 import urllib.request
 
+from dotenv import load_dotenv
+load_dotenv()
+
 USER = "Nikhilsunchu1107"
 DATA = pathlib.Path(__file__).resolve().parent / "data"
 UA = "Nikhilsunchu1107-profile-updater"
@@ -184,9 +187,6 @@ def fetch_github(token, today):
 
 # ──────────────────────────────── main ─────────────────────────────────
 def main():
-    from dotenv import load_dotenv
-
-    load_dotenv()
     today = datetime.datetime.now(datetime.timezone.utc).date()
     stats = load("stats.json", {})
     ok = False
